@@ -22,8 +22,8 @@ const payment_session = async (req, res) => {
             payment_method_types: ["card", "upi"],
             line_items: line_items,
             mode: "payment",
-            success_url: `${process.env.BACKEND_URL}/success?order_id=${order_id}`,
-            cancel_url: `${process.env.BACKEND_URL}/cancel?order_id=${order_id}`
+            success_url: `${process.env.FRONTEND_USER_URL}/success?order_id=${order_id}`,
+            cancel_url: `${process.env.FRONTEND_USER_URL}/cancel?order_id=${order_id}`
         })
         console.log(session.url, session.id)
 
