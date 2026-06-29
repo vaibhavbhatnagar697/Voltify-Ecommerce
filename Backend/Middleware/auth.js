@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import BlacklistModel from "../Model/BlacklistModel.js"
 const verify_token = async (req, res, next) => {
     try {
+        console.time("time");
         const token = req.headers.authorization;
         if (!token) {
             return res.status(401).json({
@@ -12,8 +13,9 @@ const verify_token = async (req, res, next) => {
 
         const tokenArray = token.split(" ");
         let accessToken = tokenArray[1];
-
+console.time("DB");
         const blacklistedToken = await BlacklistModel.findOne({ token: accessToken });
+        console.Endtime("DB");
         if (blacklistedToken) {
             return res.status(403).json({
                 success: false,
@@ -22,7 +24,7 @@ const verify_token = async (req, res, next) => {
         }
         const data = jwt.verify(accessToken, process.env.JWT_SECRET);
         req.userData = data;
-
+console.Endtime("time");
         return next();
     } catch (error) {
         return res.status(400).json({
