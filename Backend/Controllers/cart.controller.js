@@ -39,15 +39,11 @@ const add_to_cart = async (req, res) => {
 }
 const view_cart = async (req, res) => {
     try {
-    console.time("TOTAL API TIME");
 
-    console.time("DB QUERY");
     const CartData = await CartModel.findOne({
       user_id: req.userData.data._id
     });
-    console.timeEnd("DB QUERY");
 
-    console.timeEnd("TOTAL API TIME");
     } catch (error) {
         return res.status(400).json({
             success: false,
