@@ -15,7 +15,7 @@ const verify_token = async (req, res, next) => {
         let accessToken = tokenArray[1];
 console.time("DB");
         const blacklistedToken = await BlacklistModel.findOne({ token: accessToken });
-        console.Endtime("DB");
+        console.timeEnd("DB");
         if (blacklistedToken) {
             return res.status(403).json({
                 success: false,
@@ -24,7 +24,7 @@ console.time("DB");
         }
         const data = jwt.verify(accessToken, process.env.JWT_SECRET);
         req.userData = data;
-console.Endtime("time");
+console.timeEnd("time");
         return next();
     } catch (error) {
         return res.status(400).json({
