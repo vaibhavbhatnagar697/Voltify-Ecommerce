@@ -23,7 +23,7 @@ const user_register = async (req, res) => {
         const { name, password, email, mobile } = req.body;
 
         const userData = await UserModel.findOne({ email });
-
+        console.log(await UserModel.find({}))
         if (userData) {
             return res.status(409).json({
                 success: false,
@@ -36,9 +36,18 @@ const user_register = async (req, res) => {
         const user = new UserModel({ email, password: hashed_Password, mobile, name });
         await user.save();
 
-        const msg = `<p>Hello,${name}</p>
-        Go to link:<a href="http://localhost:5173/mail-verification?user_id=${user._id}">Link</a>
-        `
+
+        const msg = `<p>Verify Your Account<br><br>Hello ${name},<br>
+
+        Welcome! Please click the link below to verify your account and activate your access:<br>
+
+        <a href="http://localhost:5173/mail-verification?user_id=${user._id}">verificationLink</a><br>
+
+        If you did not request this verification, you can safely ignore this email.<br>
+
+        Regards,<br>
+        The Support Team
+        </p>`
         sendEmail(email, "Email Verification", msg)
 
         return res.status(200).json({
@@ -124,9 +133,22 @@ const forgot_password = async (req, res) => {
         const password = new passwordModel({ user_id: userData._id, token })
         await password.save();
 
-        const msg = `<p>Hello,${userData.name}
-        Go to link for reset password <a href="http://localhost:5173/reset-password?token=${token}">Link</a>
-        `
+
+        const msg = `<p>Reset Your Password<br><br>Dear ${userData.name},<br>
+
+        We received a request to reset the password for your account.<br>
+
+        To create a new password, please click the link below:<br>
+
+    <a href="http://localhost:5173/reset-password?token=${token}">resetPasswordLink</a><br>
+
+        For security reasons, this link will expire after a limited time.<br>
+
+        If you did not request a password reset, please ignore this email. Your account will remain secure, and no changes will be made.<br>
+
+        Best regards,<br>
+        The Support Team
+        </p>`
         sendEmail(email, "Reset Password", msg);
 
         return res.status(200).json({
