@@ -47,7 +47,7 @@ function ProductDetails() {
     const accessToken = localStorage.getItem("accessToken");
     try {
       const res = await fetch(
-        `{import.meta.env.VITE_API_URL}/user/api/add-to-cart`,
+        `${import.meta.env.VITE_API_URL}/user/api/add-to-cart`,
         {
           method: "POST",
           headers: {
