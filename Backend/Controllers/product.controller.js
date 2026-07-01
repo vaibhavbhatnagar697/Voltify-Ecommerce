@@ -126,6 +126,7 @@ const view_products = async (req, res) => {
         console.time("Time");
         const productData = await ProductModel.find({});
         console.timeEnd("Time");
+        console.log(productData)
         return res.status(200).json({
             success: true,
             productData
