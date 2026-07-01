@@ -123,8 +123,9 @@ const delete_products = async (req, res) => {
 }
 const view_products = async (req, res) => {
     try {
+        console.time("Time");
         const productData = await ProductModel.find({});
-
+        console.timeEnd("Time");
         return res.status(200).json({
             success: true,
             productData
